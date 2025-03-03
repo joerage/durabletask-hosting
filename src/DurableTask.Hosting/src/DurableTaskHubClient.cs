@@ -3,7 +3,6 @@
 
 using DurableTask.Core;
 using DurableTask.DependencyInjection;
-using DurableTask.Hosting.Options;
 
 namespace DurableTask.Hosting
 {
@@ -14,8 +13,6 @@ namespace DurableTask.Hosting
         {
             Client = Check.NotNull(client);
         }
-
-        public TaskHubOptions Options { get; }
 
         public TaskHubClient Client { get; }
     }

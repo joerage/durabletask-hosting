@@ -27,6 +27,16 @@ public class DefaultTaskHubWorkerBuilder : ITaskHubWorkerBuilder
     /// </summary>
     /// <param name="name">The name for this builder.</param>
     /// <param name="services">The current service collection, not null.</param>
+    public DefaultTaskHubWorkerBuilder(IServiceCollection services) :
+        this(Options.DefaultName, services)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultTaskHubWorkerBuilder"/> class.
+    /// </summary>
+    /// <param name="name">The name for this builder.</param>
+    /// <param name="services">The current service collection, not null.</param>
     public DefaultTaskHubWorkerBuilder(string name, IServiceCollection services)
     {
         Name = name ?? Options.DefaultName;
@@ -35,6 +45,14 @@ public class DefaultTaskHubWorkerBuilder : ITaskHubWorkerBuilder
 
     /// <inheritdoc />
     public string Name { get; }
+
+    /// <inheritdoc />
+    public IServiceCollection Services { get; }
+
+    /// <inheritdoc />
+    public IOrchestrationService? OrchestrationService { get; set; }
+
+    public Func<IServiceProvider, IOrchestrationService>? OrchestrationServiceFactory { get; set; }
 
     /// <inheritdoc/>
     public Type? BuildTarget
@@ -50,11 +68,6 @@ public class DefaultTaskHubWorkerBuilder : ITaskHubWorkerBuilder
             _buildTarget = value;
         }
     }
-
-    /// <inheritdoc />
-    public IServiceCollection Services { get; }
-
-    public Func<IServiceProvider, IOrchestrationService>? OrchestrationServiceFactory { get; set; }
 
     /// <inheritdoc />
     public IList<TaskMiddlewareDescriptor> ActivityMiddleware { get; } =
@@ -85,7 +98,7 @@ public class DefaultTaskHubWorkerBuilder : ITaskHubWorkerBuilder
 
         const string error = "No valid DurableTask worker target was registered. Ensure a valid worker has been"
             + " configured via 'UseBuildTarget(Type target)'.";
-        Check.NotNull(_buildTarget, error);
+        //Check.NotNull(_buildTarget, error);
 
         IOrchestrationService orchestrationService = serviceProvider.GetService<IOrchestrationService>();
         if (orchestrationService is null && OrchestrationServiceFactory is not null)

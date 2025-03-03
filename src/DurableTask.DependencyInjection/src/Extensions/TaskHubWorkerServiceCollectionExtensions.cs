@@ -53,6 +53,8 @@ namespace DurableTask.DependencyInjection
             Check.NotNull(name);
             Check.NotNull(configure);
 
+            services.AddLogging();
+
             ITaskHubWorkerBuilder builder = GetBuilder(services, name, out bool added);
             configure.Invoke(builder);
             ConditionalConfigureBuilder(services, builder, added);

@@ -28,6 +28,8 @@ public interface ITaskHubWorkerBuilder
     /// </summary>
     Type? BuildTarget { get; set; }
 
+    IOrchestrationService? OrchestrationService { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="IOrchestrationService"/> to use. If this is null, it will be fetched from the
     /// service provider.
@@ -53,6 +55,7 @@ public interface ITaskHubWorkerBuilder
     /// Gets the orchestrations.
     /// </summary>
     IList<TaskOrchestrationDescriptor> Orchestrations { get; }
+
 
     /// <summary>
     /// Build the hosted service which runs the worker.
